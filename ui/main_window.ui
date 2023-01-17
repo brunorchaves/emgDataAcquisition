@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1292</width>
-    <height>800</height>
+    <width>1463</width>
+    <height>915</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,20 +19,20 @@
      <widget class="QWidget" name="mainBody" native="true">
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
-        <widget class="QWidget" name="logMenu" native="true">
+        <widget class="QWidget" name="logBody" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <widget class="QWidget" name="sEMGBody" native="true">
+           <widget class="QWidget" name="emgBody" native="true">
             <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
-              <widget class="QLabel" name="bandPlotTitle">
+              <widget class="QLabel" name="labelEMGHeader">
                <property name="text">
                 <string>Real time sEMG signal: Channel 1</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QwtPlot" name="sEMGPlot">
+              <widget class="QwtPlot" name="plotEMG">
                <property name="maximumSize">
                 <size>
                  <width>600</width>
@@ -42,17 +42,17 @@
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="widget_4" native="true">
+              <widget class="QWidget" name="emgButtonsMenu" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_3">
                 <item>
-                 <widget class="QPushButton" name="buttonBandPrevious">
+                 <widget class="QPushButton" name="buttonEMGPrevious">
                   <property name="text">
                    <string>Previous</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="buttonBandNext">
+                 <widget class="QPushButton" name="buttonEMGNext">
                   <property name="text">
                    <string>Next</string>
                   </property>
@@ -65,17 +65,17 @@
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="IMUBody" native="true">
+           <widget class="QWidget" name="imuBody" native="true">
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
-              <widget class="QLabel" name="label_2">
+              <widget class="QLabel" name="labelIMUHeader">
                <property name="text">
                 <string>Real time IMU data: Acceleration</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QwtPlot" name="IMUPlot">
+              <widget class="QwtPlot" name="plotIMU">
                <property name="maximumSize">
                 <size>
                  <width>600</width>
@@ -85,7 +85,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="widget_5" native="true">
+              <widget class="QWidget" name="imuButtonsMenu" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_4">
                 <item>
                  <widget class="QPushButton" name="buttonIMUPrevious">
@@ -322,7 +322,7 @@
      <widget class="QWidget" name="instructionsBody" native="true">
       <layout class="QVBoxLayout" name="verticalLayout_8">
        <item alignment="Qt::AlignLeft">
-        <widget class="QLabel" name="title">
+        <widget class="QLabel" name="labelPosition">
          <property name="font">
           <font>
            <pointsize>20</pointsize>
@@ -334,7 +334,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="instruction">
+        <widget class="QLabel" name="labelInstruction">
          <property name="text">
           <string>Keep your hand relaxed for 15 seconds, then, keep your index and middle fingers erect for 15 seconds.</string>
          </property>
@@ -347,7 +347,7 @@
         </widget>
        </item>
        <item alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="image">
+        <widget class="QLabel" name="imageInstruction">
          <property name="maximumSize">
           <size>
            <width>300</width>
@@ -366,14 +366,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="buttonInstructionStart">
          <property name="text">
           <string>Start</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="checkBoxInstruction">
          <property name="text">
           <string>I know... Don't show me this next time.</string>
          </property>
@@ -386,10 +386,10 @@
      <widget class="QWidget" name="recordingBody" native="true">
       <layout class="QVBoxLayout" name="verticalLayout_10">
        <item>
-        <widget class="QWidget" name="widget" native="true">
+        <widget class="QWidget" name="headerBody" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QLabel" name="labelCurrentPosition">
+           <widget class="QLabel" name="labelCurrentInstruction">
             <property name="font">
              <font>
               <pointsize>24</pointsize>
@@ -422,7 +422,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBoxGraphs">
+        <widget class="QCheckBox" name="checkBoxPlots">
          <property name="text">
           <string>Show real time data</string>
          </property>
@@ -438,7 +438,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1292</width>
+     <width>1463</width>
      <height>22</height>
     </rect>
    </property>

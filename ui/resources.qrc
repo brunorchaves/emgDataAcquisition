@@ -6,5 +6,12 @@
     <file>assets/pointing.gif</file>
     <file>assets/rock.gif</file>
     <file>assets/spock.gif</file>
+
+    <file>assets/closed.png</file>
+    <file>assets/naruto.png</file>
+    <file>assets/open.png</file>
+    <file>assets/pointing.png</file>
+    <file>assets/rock.png</file>
+    <file>assets/spock.png</file>
   </qresource>
 </RCC>
