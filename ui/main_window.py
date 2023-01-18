@@ -1,8 +1,10 @@
 # coding: utf-8
 
 # TODO:
-# - callback functions to previous/next buttons of the plots
 # - message to tell wether recording was successful in finishRecording()
+# - separate window to show the signal while recording
+# - button to stop recording
+# - setting window
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
@@ -17,6 +19,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.centralwidget.setStyleSheet("background-color: #fafafa")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
         
@@ -27,11 +30,13 @@ class Ui_MainWindow(QMainWindow):
         
         self.logBody = QtWidgets.QWidget(self.mainBody)
         self.logBody.setObjectName("logBody")
+        self.logBody.setStyleSheet("background-color: #f0f0f0")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.logBody)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         
         self.emgBody = QtWidgets.QWidget(self.logBody)
         self.emgBody.setObjectName("emgBody")
+        self.emgBody.setStyleSheet("background-color: #fafafa")
         self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.emgBody)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
         self.labelEMGHeader = QtWidgets.QLabel(self.emgBody)
@@ -48,15 +53,18 @@ class Ui_MainWindow(QMainWindow):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.buttonEMGPrevious = QtWidgets.QPushButton(self.emgButtonsMenu)
         self.buttonEMGPrevious.setObjectName("buttonEMGPrevious")
+        self.buttonEMGPrevious.clicked.connect(lambda: self.changeEMGChannelPlot(-1))
         self.horizontalLayout_3.addWidget(self.buttonEMGPrevious)
         self.buttonEMGNext = QtWidgets.QPushButton(self.emgButtonsMenu)
         self.buttonEMGNext.setObjectName("buttonEMGNext")
+        self.buttonEMGNext.clicked.connect(lambda: self.changeEMGChannelPlot(1))
         self.horizontalLayout_3.addWidget(self.buttonEMGNext)
         self.verticalLayout_11.addWidget(self.emgButtonsMenu)
         self.verticalLayout_7.addWidget(self.emgBody)
         
         self.imuBody = QtWidgets.QWidget(self.logBody)
         self.imuBody.setObjectName("imuBody")
+        self.imuBody.setStyleSheet("background-color: #fafafa")
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.imuBody)
         self.verticalLayout_9.setObjectName("verticalLayout_9")
         self.labelIMUHeader = QtWidgets.QLabel(self.imuBody)
@@ -73,9 +81,11 @@ class Ui_MainWindow(QMainWindow):
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.buttonIMUPrevious = QtWidgets.QPushButton(self.imuButtonsMenu)
         self.buttonIMUPrevious.setObjectName("buttonIMUPrevious")
+        self.buttonIMUPrevious.clicked.connect(lambda: self.changeIMUPlot(-1))
         self.horizontalLayout_4.addWidget(self.buttonIMUPrevious)
         self.buttonIMUNext = QtWidgets.QPushButton(self.imuButtonsMenu)
         self.buttonIMUNext.setObjectName("buttonIMUNext")
+        self.buttonIMUNext.clicked.connect(lambda: self.changeIMUPlot(1))
         self.horizontalLayout_4.addWidget(self.buttonIMUNext)
         self.verticalLayout_9.addWidget(self.imuButtonsMenu)
         self.verticalLayout_7.addWidget(self.imuBody)
@@ -224,9 +234,6 @@ class Ui_MainWindow(QMainWindow):
         self.buttonInstructionStart.setObjectName("buttonInstructionStart")
         self.buttonInstructionStart.clicked.connect(self.startRecordingRoutine)
         self.verticalLayout_8.addWidget(self.buttonInstructionStart)
-        # self.checkBoxInstruction = QtWidgets.QCheckBox(self.instructionsBody)
-        # self.checkBoxInstruction.setObjectName("checkBoxInstruction")
-        # self.verticalLayout_8.addWidget(self.checkBoxInstruction)
         self.horizontalLayout.addWidget(self.instructionsBody)
         
         self.recordingBody = QtWidgets.QWidget(self.centralwidget)
@@ -243,14 +250,6 @@ class Ui_MainWindow(QMainWindow):
         self.labelCurrentInstruction.setFont(font)
         self.labelCurrentInstruction.setObjectName("labelCurrentInstruction")
         self.horizontalLayout_2.addWidget(self.labelCurrentInstruction)
-        # self.labelCronometer = QtWidgets.QLabel(self.headerBody)
-        # font = QtGui.QFont()
-        # font.setPointSize(24)
-        # self.labelCronometer.setFont(font)
-        # self.labelCronometer.setScaledContents(False)
-        # self.labelCronometer.setWordWrap(False)
-        # self.labelCronometer.setObjectName("labelCronometer")
-        # self.horizontalLayout_2.addWidget(self.labelCronometer)
         self.verticalLayout_10.addWidget(self.headerBody)
         self.checkBoxPlots = QtWidgets.QCheckBox(self.recordingBody)
         self.checkBoxPlots.setObjectName("checkBoxPlots")
@@ -278,13 +277,17 @@ class Ui_MainWindow(QMainWindow):
         self.actionOpen.setObjectName("actionOpen")
         self.actionExit = QtWidgets.QAction(MainWindow)
         self.actionExit.setObjectName("actionExit")
+        self.actionExit.triggered.connect(self.exit)
         self.actionRecent = QtWidgets.QAction(MainWindow)
         self.actionRecent.setObjectName("actionRecent")
+        self.actionHelp = QtWidgets.QAction(MainWindow)
+        self.actionHelp.setObjectName("actionHelp")
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionRecent)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionExit)
+        self.menuHelp.addAction(self.actionHelp)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuSettings.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -302,6 +305,10 @@ class Ui_MainWindow(QMainWindow):
         self.recordingState = -1
         self.remainingTime = -1
         self.recordingInstruction = 'NULL'
+
+        self.currentEMGChannelPlot = 1
+        self.currentIMUPlot = 1
+        self.imuPlotDict = {1: "Acceleration", 2: "Velocity", 3: "Position"}
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -322,9 +329,7 @@ class Ui_MainWindow(QMainWindow):
         self.labelPosition.setText(_translate("MainWindow", "Open"))
         self.labelInstruction.setText(_translate("MainWindow", "Keep your hand relaxed for 15 seconds, them, keep her fully open for more 15 seconds."))
         self.buttonInstructionStart.setText(_translate("MainWindow", "Start"))
-        # self.checkBoxInstruction.setText(_translate("MainWindow", "I know... Don\'t show me this next time."))
         self.labelCurrentInstruction.setText(_translate("MainWindow", "Relax your hand in 5"))
-        # self.labelCronometer.setText(_translate("MainWindow", "5"))
         self.checkBoxPlots.setText(_translate("MainWindow", "Show real time data"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
@@ -333,6 +338,29 @@ class Ui_MainWindow(QMainWindow):
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionRecent.setText(_translate("MainWindow", "Recent"))
+        self.actionHelp.setText(_translate("MainWindow", "Visit our site"))
+
+    def changeEMGChannelPlot(self, action):
+        ''' action = +/- 1, depending if you want the next or previous channel '''
+        nextChannel = self.currentEMGChannelPlot + action
+        if nextChannel < 1:
+            nextChannel = 16
+        elif nextChannel > 16:
+            nextChannel = 1
+
+        self.currentEMGChannelPlot = nextChannel
+        self.labelEMGHeader.setText("Real time sEMG signal: Channel {}".format(self.currentEMGChannelPlot))
+
+    def changeIMUPlot(self, action):
+        ''' action = +/- 1, depending if you want the next or previous channel '''
+        next = self.currentIMUPlot + action
+        if next < 1:
+            next = 3
+        elif next > 3:
+            next = 1
+
+        self.currentIMUPlot = next
+        self.labelIMUHeader.setText("Real time IMU data: {}".format(self.imuPlotDict[self.currentIMUPlot]))
 
     def selectPosition(self, position, instruction, gif_path):
         '''
@@ -403,6 +431,8 @@ class Ui_MainWindow(QMainWindow):
             self.stateTimer.stop()
             self.finishRecording()
 
+    def exit(self):
+        QtCore.QCoreApplication.quit()
 
 if __name__ == "__main__":
     import sys
