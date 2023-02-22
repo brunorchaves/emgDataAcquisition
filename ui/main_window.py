@@ -6,6 +6,13 @@
 # - button to stop recording
 # - setting window
 
+import sys
+# caution: path[0] is reserved for script path (or '' in REPL)
+sys.path.insert(1, 'D:\Documentos\GitHub\emgDataAcquisition\myoPython')
+
+import emgDataStream
+from emgDataStream import doSomething
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 
@@ -387,7 +394,7 @@ class Ui_MainWindow(QMainWindow):
         self.mainBody.hide()
         self.instructionsBody.hide()
         self.recordingBody.show()
-
+        doSomething();
         self.nextRecordingState()
         self.cronometer.start(1000)
 
@@ -427,7 +434,7 @@ class Ui_MainWindow(QMainWindow):
         elif self.recordingState == 2:
             self.recordingState = -1
             self.remainingTime = -1
-            self.recordingInstruction = 'Relax your hand in 5'
+            self.recordingInstruction = 'Relax your hanlsd in 5'
             self.stateTimer.stop()
             self.finishRecording()
 
